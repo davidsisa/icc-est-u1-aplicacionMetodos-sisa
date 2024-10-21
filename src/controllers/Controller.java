@@ -27,6 +27,9 @@ public class Controller {
                 case 2:
                     addPerson();
                 break;
+                case 3:
+                    sortPersons();
+                break;
                 case 100:
                     System.out.println("Adios");
                 break;
@@ -44,14 +47,30 @@ public class Controller {
         }
     }
     public void addPerson(){
-        int numeroPersonas = view.inputIn("Ingrese el numero de personas a adicionar: ");
-        Person[] personasTotales = new Person[personas.length + numeroPersonas];
-        for (int i = 0; i < personas.length; i++) {
-            personasTotales[i] = personas[i];
+        if (personas == null) {
+            view.showMesagge("No hay datos");
+            inputPersons();
+        }else  {
+            int numeroPersonas = view.inputIn("Ingrese el numero de personas a adicionar: ");
+            Person[] personasTotales = new Person[personas.length + numeroPersonas];
+            for (int i = 0; i < personas.length; i++) {
+                personasTotales[i] = personas[i];
+            }
+            for (int i = personas.length; i < personasTotales.length; i++) {
+                personas[i] = view.inputPerson();
+            }
+            personas = personasTotales;
         }
-        for (int i = personas.length; i < personasTotales.length; i++) {
-            personas[i] = view.inputPerson();
+        }
+    public void sortPersons() {
+        int sortingOption = view.selecSortingMethod();
+        if (sortingOption == 1) {
+            sortingmethods.sortByNameBuble(personas);
+        }else if (sortingOption == 2) {
+            sortingmethods.sortByAgeWithSelection(personas);
+        } else {
+           view.showMesagge("Opcion no valida");
         }
     }
-    personas = personasTotales;
+    
 }
